@@ -39,6 +39,7 @@ export class App extends React.Component {
   async fetchPossibleValues() {
     let referenceContentTypes = this.getReferenceContentTypes()
     const query = referenceContentTypes.length > 0 ? {"sys.contentType.sys.id[in]": referenceContentTypes.join(", ")} : {}
+    query['sys.archivedAt[exists]'] = false
     return (await this.props.sdk.space.getEntries(query)).items
   }
 
