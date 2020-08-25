@@ -113,6 +113,19 @@ export class App extends React.Component {
     this.setState({value: currentValue})
   }
 
+  sortPossibleValues = possibleValues => {
+    possibleValues.sort((a,b) => {
+      let a_contentType = this.state.contentTypes[a.sys.contentType.sys.id]
+      let b_contentType = this.state.contentTypes[b.sys.contentType.sys.id]
+      let a_displayFieldValue = a.fields[a_contentType.displayField] ? a.fields[a_contentType.displayField][this.props.sdk.locales.default] : 'Untitled'
+      let b_displayFieldValue = b.fields[b_contentType.displayField] ? b.fields[b_contentType.displayField][this.props.sdk.locales.default] : 'Untitled'
+      if (a_displayFieldValue < b_displayFieldValue) return -1
+      if (b_displayFieldValue < a_displayFieldValue) return 1
+      return 0
+    })
+    return possibleValues
+  }
+
   render() {
     if (this.state.loading) {
       return <Spinner />
@@ -127,7 +140,7 @@ export class App extends React.Component {
     return (
       <>
         <FieldGroup row={false}>
-          {this.state.possibleValues.map(e => {
+          {this.sortPossibleValues(this.state.possibleValues).map(e => {
             const contentType = this.state.contentTypes[e.sys.contentType.sys.id]
 
             return <CheckboxField
