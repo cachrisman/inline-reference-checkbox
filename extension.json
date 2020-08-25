@@ -1,0 +1,8 @@
+{
+  "id": "inline-reference-checkboxes",
+  "name": "inline-reference-checkboxes",
+  "srcdoc": "./build/index.html",
+  "fieldTypes": [
+    "Entries"
+  ]
+}
